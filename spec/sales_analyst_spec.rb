@@ -14,7 +14,7 @@ RSpec.describe 'SalesAnalyst' do
       :transactions => './spec/fixtures/transactions_mock.csv'})
     @sa = SalesAnalyst.new(@se)
   end
-  describe 'instantiation' do
+  describe 'instantiation (iteration 1)' do
     it 'exists' do
 
       expect(@sa).to be_a(SalesAnalyst)
@@ -69,6 +69,39 @@ RSpec.describe 'SalesAnalyst' do
     it 'can calculate the golden items which are 2 standevs above mean' do
 
       expect(@sa.golden_items.count).to eq(2)
+    end
+  end
+  context '(iteration 2)' do
+    it 'can find invoices per merchant' do
+      expect(@sa.invoices_per_merchant).to eq([4, 6, 2, 10, 14])
+    end
+
+    it 'can calculate the average invoices per merchant' do
+      expect(@sa.average_invoices_per_merchant).to eq(7.2)
+    end
+
+    it 'can calculate average invoices per merchant standard deviation' do
+      expect(@sa.average_invoices_per_merchant_standard_deviation).to eq(4.82)
+    end
+
+    it 'can calculate high invoice count' do
+      expect(@sa.high_invoice_count).to eq(16.84)
+    end
+
+    it 'can find top merchants by invoice count' do
+      expect(@sa.top_merchants_by_invoice_count).to eq([])
+    end
+
+    it 'can calculate low invoice count' do
+      expect(@sa.low_invoice_count).to eq(-2.44)
+    end
+
+    it 'can find bottom merchants by invoice count' do
+      expect(@sa.bottom_merchants_by_invoice_count).to eq([])
+    end
+
+    it 'can eat shit' do
+      expect(@sa.top_days_by_invoice_count).to eq([])
     end
   end
 end
