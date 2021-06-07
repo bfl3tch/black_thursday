@@ -73,4 +73,57 @@ class SalesAnalyst
       item.unit_price >= (stan_div + avg)
     end
   end
+
+  def invoices_per_merchant
+    all_invoices = @engine.invoices
+    all_merchants = @engine.merchants
+    all_merchants.all.map do |merchant|
+      all_invoices.find_all_by_merchant_id(merchant.id).count
+    end
+  end
+
+  def average_invoices_per_merchant
+    average(invoices_per_merchant).round(2)
+  end
+
+  def average_invoices_per_merchant_standard_deviation
+    standard_deviation(invoices_per_merchant).round(2)
+  end
+
+  def high_invoice_count
+    (standard_deviation(invoices_per_merchant) * 2) + average_invoices_per_merchant
+  end
+
+  def top_merchants_by_invoice_count
+    all_invoices = @engine.invoices
+    all_merchants = @engine.merchants.all
+    all_merchants.map do |merchant|
+      if all_invoices.find_all_by_merchant_id(merchant.id).count >= high_invoice_count
+        merchant
+      end
+    end.compact
+  end
+
+  def low_invoice_count
+    lv = average_invoices_per_merchant - (standard_deviation(invoices_per_merchant) * 2)
+    lv.round(2)
+  end
+
+  def bottom_merchants_by_invoice_count
+    all_invoices = @engine.invoices
+    all_merchants = @engine.merchants.all
+    all_merchants.map do |merchant|
+      if all_invoices.find_all_by_merchant_id(merchant.id).count <= low_invoice_count
+        merchant
+      end
+    end.compact
+  end
+
+  def top_days_by_invoice_count
+    all_invoices = @engine.invoices.all
+    require "pry"; binding.pry
+  end
+
+  def invoice_status(status)
+  end
 end
