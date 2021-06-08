@@ -1,5 +1,6 @@
 require 'CSV'
 require_relative 'invoice_item'
+require_relative 'sales_engine'
 
 class InvoiceItemRepository
   attr_reader :id, :item_id, :all, :invoice_items, :file_path, :engine
@@ -33,13 +34,13 @@ class InvoiceItemRepository
   end
 
   def find_all_by_item_id(item_id)
-    items.find_all do |item|
+    invoice_items.find_all do |item|
       item.item_id == item_id
     end
   end
 
   def find_all_by_invoice_id(invoice_id)
-    items.find_all do |item|
+    invoice_items.find_all do |item|
       item.invoice_id == invoice_id
     end
   end
@@ -57,7 +58,7 @@ class InvoiceItemRepository
     if invoice_item_by_id != nil
       invoice_item_by_id.change_quantity(attributes[:quantity])
       invoice_item_by_id.change_unit_price(attributes[:unit_price])
-      invoice_item_id.update_time
+      invoice_item_by_id.update_time
     end
   end
 
