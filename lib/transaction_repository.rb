@@ -12,7 +12,7 @@ class TransactionRepository
 
   def create_repo
     CSV.foreach(file_path, headers: true, header_converters: :symbol) do |row|
-      transaction = TransactionRepository.new(row, self)
+      transaction = Transaction.new(row, self)
       @transactions << transaction
     end
     self

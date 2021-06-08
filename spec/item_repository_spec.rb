@@ -125,7 +125,7 @@ RSpec.describe ItemRepository do
 
     item_repo.update(263409022,{unit_price: "3000"})
 
-    expect(item_repo.find_by_id(263409022).updated_at.to_i).to eq (Time.now).to_i
+    expect(item_repo.find_by_id(263409022).updated_at.to_i).to eq(Time.now).to_i
   end
 
   it "can delete an item" do
