@@ -121,7 +121,6 @@ class SalesAnalyst
 
   def top_days_by_invoice_count
     all_invoices = @engine.invoices.all
-    require "pry"; binding.pry
   end
 
   def invoice_status(status)
