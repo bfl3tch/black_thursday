@@ -119,10 +119,51 @@ class SalesAnalyst
     end.compact
   end
 
-  def top_days_by_invoice_count
+  def assign_invoice_day
     all_invoices = @engine.invoices.all
+    vars = all_invoices.map do |invoice|
+      Time.parse(invoice.created_at)
+    end
+    day = vars.map do |var|
+      var.strftime('%A')
+    end
+  end
+
+  def tally_the_days
+    assign_invoice_day.tally
+  end
+
+  def mean_number_of_invoices_per_day
+    total = tally_the_days.values.sum
+    total.fdiv(7).round(2)
+  end
+
+  def standard_deviation_of_days
+    array = []
+    tally_the_days.values.each do |value|
+    array << value
+    end
+    standard_deviation(array)
+  end
+
+  def top_days_by_invoice_count
+    result = (standard_deviation_of_days) + (mean_number_of_invoices_per_day)
+    tally_the_days.find_all do |day, amount|
+      if amount > result
+        return day
+      end
+    end
   end
 
   def invoice_status(status)
+    all_invoices = @engine.invoices.all
+    all_stats = []
+    all_invoices.each do |invoice|
+      if invoice.status.to_sym == status
+        all_stats << invoice.status.to_sym
+        end
+      end
+      amount_of_stat = all_stats.count
+      (amount_of_stat.fdiv(all_invoices.count) * 100).round(1)
   end
 end
