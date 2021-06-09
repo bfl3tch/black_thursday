@@ -16,13 +16,13 @@ class Transaction
     @credit_card_number = transaction_data[:credit_card_number].to_s
     @credit_card_expiration_date = transaction_data[:credit_card_expiration_date].to_s
     @result = transaction_data[:result].to_sym
-    @created_at = Time.parse(transaction_data[:created_at])
-    @updated_at = Time.parse(transaction_data[:updated_at])
+    @created_at = Time.parse(transaction_data[:created_at].to_s)
+    @updated_at = Time.parse(transaction_data[:updated_at].to_s)
     @repo = repo
   end
 
   def update_time
-    @updated_at = Time.now.to_s
+    @updated_at = Time.now
   end
 
   def change_credit_card_number(credit_card_number)
@@ -34,6 +34,6 @@ class Transaction
   end
 
   def update_result(result)
-    @result.to_sym = result
+    @result = result.to_sym
   end
 end
