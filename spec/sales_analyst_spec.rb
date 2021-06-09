@@ -143,8 +143,12 @@ RSpec.describe 'SalesAnalyst' do
     it 'can determine the total amount owed by invoice' do
       expect(@sa.invoice_total(8)).to eq(0.637047e4)
       expect(@sa.invoice_total(1)).to eq(0.1645131e5)
-
     end
+
+    it "can determines total revenue by date" do
+      expect(@sa.total_revenue_by_date("2012-03-27")).to eq(254792.59)
+    end
+
 
   end
 end

@@ -192,4 +192,41 @@ class SalesAnalyst
       end
       total_amounts.uniq.sum
   end
-end
+
+  def get_date(date)
+    if date.class == String
+      date = Date.parse(date)
+    elsif date.class == Time
+      date = date.to_date
+    end
+  end
+
+  def total_revenue_by_date(date)
+    date1 = get_date(date)
+    ii = @engine.invoice_items.all
+    matches = []
+    total_amounts = []
+    bigd_amounts = []
+    final= []
+    ii.each do |invoiceitem|
+    if invoiceitem.created_at.to_s.include?(date1.to_s)
+        matches << invoiceitem
+        end
+      end
+        matches.each do |match|
+          total_amounts << match
+        end
+        total_amounts.each do |amount|
+          bigd_amounts << (amount.unit_price * amount.quantity)
+        end
+          bigd_amounts.each do |amount|
+          final << amount
+        end
+        final.sum.round(2)
+      end
+
+      def top_revenue_earners(x)
+         #mechant ids with highest revenue
+         #
+      end
+    end
