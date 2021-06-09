@@ -5,7 +5,7 @@
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 # Welcome to Black Thursday - a manually built API  #
-![Black Thursday Welcome Screen](https://user-images.githubusercontent.com/74567704/121286989-b0bd6900-c8ae-11eb-8cc1-701fee9b4184.png)
+![Black Thursday Welcome Screen](https://user-images.githubusercontent.com/74567704/121423055-dc3b6480-c93d-11eb-9f00-9e230adcbbd8.png)
 
 Find the [project spec here](http://backend.turing.io/module1/projects/black_thursday/).
 ## Table of Contents
