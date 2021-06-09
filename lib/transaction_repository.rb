@@ -52,16 +52,23 @@ class TransactionRepository
 
   def create(attributes)
     transaction_id = transactions.max { |transaction| transaction.id}
-    attributes[:id] = transaction_id.id + 1
+    attributes[:id] = (transaction_id.id + 1)
     @transactions << Transaction.new(attributes, self)
   end
 
   def update(id, attributes)
     transaction_by_id = find_by_id(id)
     if transaction_by_id != nil
-      transaction_by_id.change_credit_card_number(attributes[:credit_card_number])
-      transaction_by_id.change_credit_card_expiration_date(attributes[:credit_card_expiration_date])
-      transaction_by_id.update_result(attributes[:result])
+      transaction_by_id.update_time
+      if attributes.keys.include?(:credit_card_number)
+        transaction_by_id.change_credit_card_number(attributes[:credit_card_number])
+      end
+      if attributes.keys.include?(:credit_card_expiration_date)
+        transaction_by_id.change_credit_card_expiration_date(attributes[:credit_card_expiration_date])
+      end
+      if attributes.keys.include?(:result)
+        transaction_by_id.update_result(attributes[:result])
+      end
     end
   end
 
