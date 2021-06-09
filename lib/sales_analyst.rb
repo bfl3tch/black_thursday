@@ -166,4 +166,30 @@ class SalesAnalyst
       amount_of_stat = all_stats.count
       (amount_of_stat.fdiv(all_invoices.count) * 100).round(1)
   end
+
+  def invoice_paid_in_full?(invoice_id)
+    successful_transactions = []
+    all_transactions = @engine.transactions.all
+    all_transactions.map do |transaction|
+     if transaction.result == 'success'
+       successful_transactions << transaction.invoice_id
+      end
+    end
+    successful_transactions.include?(invoice_id)
+  end
+
+  def invoice_total(invoice_id)
+    ii = @engine.invoice_items.all
+    matches = []
+    total_amounts = []
+    ii.each do |invoiceitem|
+      if invoiceitem.invoice_id == invoice_id
+        matches << invoiceitem
+        end
+        matches.each do |match|
+          total_amounts << (match.unit_price * match.quantity)
+        end
+      end
+      total_amounts.uniq.sum
+  end
 end

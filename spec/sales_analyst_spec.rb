@@ -136,6 +136,13 @@ RSpec.describe 'SalesAnalyst' do
     end
 
     it 'can determine if the invoice is paid in full' do
+      expect(@sa.invoice_paid_in_full?(8)).to eq(true)
+      expect(@sa.invoice_paid_in_full?(9)).to eq(false)
+    end
+
+    it 'can determine the total amount owed by invoice' do
+      expect(@sa.invoice_total(8)).to eq(0.637047e4)
+      expect(@sa.invoice_total(1)).to eq(0.1645131e5)
 
     end
 
