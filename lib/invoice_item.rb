@@ -18,7 +18,7 @@ class InvoiceItem
     @unit_price = BigDecimal(item_data[:unit_price]) / 100
     @quantity = item_data[:quantity].to_i
     @created_at = Time.parse(item_data[:created_at].to_s)
-    @updated_at = Time.parse(item_data[:updated_at].to_s)
+    @updated_at = Time.parse(item_data[:updated_at])
     @repo = repo
   end
 
@@ -31,10 +31,10 @@ class InvoiceItem
   end
 
   def change_unit_price(unit_price)
-    @unit_price = BigDecimal(unit_price) / 100
+    @unit_price = unit_price
   end
 
   def update_time
-    @update_at = Time.now
+    @updated_at = Time.now
   end
 end
