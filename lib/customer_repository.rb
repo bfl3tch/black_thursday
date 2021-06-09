@@ -53,9 +53,13 @@ class CustomerRepository
   def update(id, attributes)
     customer_by_id = find_by_id(id)
     if customer_by_id != nil
-      customer_by_id.change_first_name(attributes[:first_name])
-      customer_by_id.change_last_name(attributes[:last_name])
       customer_by_id.update_time
+      if attributes.keys.include?(:first_name)
+        customer_by_id.change_first_name(attributes[:first_name])
+      end
+      if attributes.keys.include?(:last_name)
+        customer_by_id.change_last_name(attributes[:last_name])
+      end      
     end
   end
 

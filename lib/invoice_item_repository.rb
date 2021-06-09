@@ -59,6 +59,7 @@ class InvoiceItemRepository
       invoice_item_by_id.change_quantity(attributes[:quantity])
       invoice_item_by_id.change_unit_price(attributes[:unit_price])
       invoice_item_by_id.update_time
+
     end
   end
 

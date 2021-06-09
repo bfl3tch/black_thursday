@@ -170,8 +170,8 @@ class SalesAnalyst
   def invoice_paid_in_full?(invoice_id)
     successful_transactions = []
     all_transactions = @engine.transactions.all
-    all_transactions.map do |transaction|
-     if transaction.result == 'success'
+    all_transactions.find_all do |transaction|
+     if transaction.result == :success
        successful_transactions << transaction.invoice_id
       end
     end
