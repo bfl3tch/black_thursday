@@ -100,8 +100,44 @@ RSpec.describe 'SalesAnalyst' do
       expect(@sa.bottom_merchants_by_invoice_count).to eq([])
     end
 
-    it 'can eat shit' do
-      expect(@sa.top_days_by_invoice_count).to eq([])
+    it 'can assign invoices a day value' do
+      expect(@sa.assign_invoice_day.count).to eq(36)
     end
+
+    it 'can tally up each of the day values individually' do
+      expect(@sa.assign_invoice_day.count).to eq(36)
+      expect(@sa.tally_the_days).to eq(
+        { "Friday"=>8,
+          "Monday"=>6,
+          "Saturday"=>6,
+          "Sunday"=>4,
+          "Thursday"=>5,
+          "Tuesday"=>5,
+          "Wednesday"=>2
+        })
+    end
+
+    it 'can determine the average invoices per day' do
+      expect(@sa.mean_number_of_invoices_per_day).to eq(5.14)
+    end
+
+    it 'can determine the standard deviation of the weekday set' do
+      expect(@sa.standard_deviation_of_days).to eq(1.86)
+    end
+
+    it 'can calculate the top days by invoice count' do
+      expect(@sa.top_days_by_invoice_count).to eq('Friday')
+    end
+
+    it 'can determine the invoice status of percentage by status' do
+      expect(@sa.invoice_status(:pending)).to eq(38.9)
+      expect(@sa.invoice_status(:shipped)).to eq(58.3)
+      expect(@sa.invoice_status(:returned)).to eq(2.8)
+    end
+
+    it 'can determine if the invoice is paid in full' do
+
+    end
+
   end
 end
