@@ -149,6 +149,12 @@ RSpec.describe 'SalesAnalyst' do
       expect(@sa.total_revenue_by_date("2012-03-27")).to eq(254792.59)
     end
 
+    it 'can determine revenue by invoice id' do
+      expect(@sa.revenue_by_invoice_id(5)).to eq(4912.1)
+    end
 
+    it 'can return revenue by merchant' do
+      expect(@sa.revenue_by_merchant(12334123)).to eq(58859.75)
+    end
   end
 end
