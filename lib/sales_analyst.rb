@@ -225,8 +225,45 @@ class SalesAnalyst
         final.sum.round(2)
       end
 
+      def revenue_by_invoice_id(invoice_id)
+        array = []
+        rii = {}
+        rev_acc = @engine.invoice_items.find_all_by_invoice_id(invoice_id)
+        result = rev_acc.each do |iii|
+        array << (iii.unit_price * iii.quantity)
+        end
+        value = array.sum.to_f
+        rii[invoice_id] = value
+      end
+
+      def invoice_ids_by_merchant(merchant_id)
+        array = []
+        invoices = @engine.invoices.all
+        var = @engine.invoices.find_all_by_merchant_id(merchant_id)
+        var.each do |invoice|
+          array << invoice.id
+        end
+        array
+      end
+
+      def revenue_by_merchant(merchant_id)
+        all_invoice_ids = invoice_ids_by_merchant(merchant_id)
+        revenue = all_invoice_ids.map do |invoice_id|
+          revenue_by_invoice_id(invoice_id)
+        end
+        revenue.sum
+      end
+
+      def all_earners(merchant_id)
+      all_earners = {}
+      merchants = @engine.merchants.all
+      merchants.find do |merchant|
+        if merchant.id == merchant_id
+          return merchant
+      all_earners[merchant] = revenue_by_merchant(merchant_id)
+      end
+
       def top_revenue_earners(x)
-         #mechant ids with highest revenue
-         #
+
       end
     end
