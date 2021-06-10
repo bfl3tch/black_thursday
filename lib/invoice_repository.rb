@@ -62,6 +62,7 @@ class InvoiceRepository
     invoice_by_id = find_by_id(id)
     if invoice_by_id != nil
       invoice_by_id.change_status(attributes[:status])
+      invoice_by_id.update_time
     end
   end
 
