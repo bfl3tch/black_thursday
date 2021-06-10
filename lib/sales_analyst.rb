@@ -192,4 +192,78 @@ class SalesAnalyst
       end
       total_amounts.uniq.sum
   end
-end
+
+  def get_date(date)
+    if date.class == String
+      date = Date.parse(date)
+    elsif date.class == Time
+      date = date.to_date
+    end
+  end
+
+  def total_revenue_by_date(date)
+    date1 = get_date(date)
+    ii = @engine.invoice_items.all
+    matches = []
+    total_amounts = []
+    bigd_amounts = []
+    final= []
+    ii.each do |invoiceitem|
+    if invoiceitem.created_at.to_s.include?(date1.to_s)
+        matches << invoiceitem
+        end
+      end
+        matches.each do |match|
+          total_amounts << match
+        end
+        total_amounts.each do |amount|
+          bigd_amounts << (amount.unit_price * amount.quantity)
+        end
+          bigd_amounts.each do |amount|
+          final << amount
+        end
+        final.sum.round(2)
+      end
+
+      def revenue_by_invoice_id(invoice_id)
+        array = []
+        rii = {}
+        rev_acc = @engine.invoice_items.find_all_by_invoice_id(invoice_id)
+        result = rev_acc.each do |iii|
+        array << (iii.unit_price * iii.quantity)
+        end
+        value = array.sum.to_f
+        rii[invoice_id] = value
+      end
+
+      def invoice_ids_by_merchant(merchant_id)
+        array = []
+        invoices = @engine.invoices.all
+        var = @engine.invoices.find_all_by_merchant_id(merchant_id)
+        var.each do |invoice|
+          array << invoice.id
+        end
+        array
+      end
+
+      def revenue_by_merchant(merchant_id)
+        all_invoice_ids = invoice_ids_by_merchant(merchant_id)
+        revenue = all_invoice_ids.map do |invoice_id|
+          revenue_by_invoice_id(invoice_id)
+        end
+        revenue.sum
+      end
+
+      def all_earners(merchant_id)
+      all_earners = {}
+      merchants = @engine.merchants.all
+      merchants.find do |merchant|
+        if merchant.id == merchant_id
+          return merchant
+      all_earners[merchant] = revenue_by_merchant(merchant_id)
+      end
+
+      def top_revenue_earners(x)
+
+      end
+    end
